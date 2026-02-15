@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💜✨🌹FELIZ SAN VALENTIN 🌹✨💜</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #d9a7ff, #b06ab3);
+    overflow: hidden;
+	overflow-y: auto;
+    text-align: center;
+    color: white;
+}
+
+/* Pantalla inicial */
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #8e44ad, #5e3370);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: opacity 1s ease;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: white;
+    color: #8e44ad;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* Carta */
+.card {
+    position: relative;
+    top: 5vh;
+    margin: auto;
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.4);
+    display: none;
+	max-height: 80vh;
+	overflow-y: auto;
+	padding-right: 10px;
+
+}
+
+/* Slideshow */
+.foto-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 20px auto;
+}
+
+.foto-container img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.foto-container img.active {
+    opacity: 1;
+}
+
+/* Texto */
+#typewriter {
+    font-size: 1.15em;
+    line-height: 1.8em;
+    margin-top: 20px;
+    white-space: pre-line;
+    min-height: 220px;
+}
+
+/* Firma */
+.firma {
+    margin-top: 25px;
+    font-weight: bold;
+    font-size: 1.3em;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+/* Botón música */
+.music-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Lluvia */
+.heart {
+    position: fixed;
+    top: -10px;
+    color: #ffccff;
+    font-size: 20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+    <h1>Tengo algo muy especial que decirte… 💜</h1>
+    <button onclick="startExperience()">Descúbrelo 💖</button>
+</div>
+
+<div class="card" id="card">
+
+    <h2>💜✨🌹FELIZ SAN VALENTIN🌹✨💜 </h2>
+
+    <div class="foto-container">
+        <img src="foto1.jpg" class="active">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+    </div>
+
+    <div id="typewriter"></div>
+
+    <div class="firma" id="firma">
+        Con todo mi corazón 💜<br>
+        KENARU
+    </div>
+
+</div>
+
+<div class="music-btn">
+    <button onclick="toggleMusic()">🎶 Música</button>
+</div>
+
+<audio id="music" loop preload="auto">
+    <source src="cancion.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let music = document.getElementById("music");
+
+function startExperience() {
+
+    // Mostrar carta
+    document.getElementById("intro").style.opacity = "0";
+    setTimeout(function(){
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("card").style.display = "block";
+    }, 1000);
+
+    // Música
+    music.play().catch(()=>{});
+
+    // Texto
+    typeWriterEffect(
+`Desde que llegaste a mi vida, todo tiene un brillo diferente.
+Cada momento contigo se convierte en recuerdo,cada sonrisa tuya ilumina mis días.
+
+Me enamoré de tu sonrisa sin darme cuenta… y cada vez que te miro,
+vuelvo a sentir lo mismo que la primera vez. A tu lado soy realmente feliz.
+
+Feliz San Valentín, MI PRINCESA 🏹 💘`,
+    "typewriter",
+    65
+    );
+}
+
+function toggleMusic() {
+    if (music.paused) {
+        music.play();
+    } else {
+        music.pause();
+    }
+}
+
+function typeWriterEffect(text, elementId, speed) {
+    let i = 0;
+    let element = document.getElementById(elementId);
+    element.innerHTML = "";
+
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        } else {
+            document.getElementById("firma").style.opacity = "1";
+        }
+    }
+    typing();
+}
+
+/* Slideshow */
+let slides = document.querySelectorAll(".foto-container img");
+let index = 0;
+
+setInterval(function(){
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+}, 3000);
+
+/* Lluvia */
+setInterval(function(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💜💘";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(function(){
+        heart.remove();
+    }, 5000);
+}, 300);
+
+</script>
+
+</body>
+</html>
+
